@@ -14,5 +14,5 @@ steps:
     - RELEASE_NAME=azdemo
     - VALUE_clusterDnsZone=$CLUSTER_DNS_ZONE
     retry:
-      maxAttempts: 3
+      maxAttempts: 10
       delay: 10
