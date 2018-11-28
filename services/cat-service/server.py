@@ -7,7 +7,6 @@ PORT = os.getenv('PORT', 8080)
 cats = [
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTz7DnepEt9HKWgFwpdU1U-EkBh_BVyGyl_L2xBA8Maaa3mTQ5E',
     'https://thepawington.com/wp-content/uploads/2014/02/kitten.png',
-    'http://wall2born.com/data/out/579/image-49251716-cute-kitten-pics.jpg',
     'https://ih0.redbubble.net/image.474690746.7074/ap,550x550,12x16,1,transparent,t.u1.png',
     'https://cat-bounce.com/catbounce.png'
 ]
