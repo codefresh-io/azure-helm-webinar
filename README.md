@@ -4,8 +4,8 @@
 that provides a unique sensory experience.
 
 It is comprised of a simple frontend,
-the [cat-service](https://github.com/codefresh-io/azure-demo-cat-service),
-and the [color-service](https://github.com/codefresh-io/azure-demo-color-service).
+the [cat-service](services/cat-service),
+and the [color-service](services/color-service).
 
 To install (on Azure):
 
