@@ -28,9 +28,11 @@ steps:
   BumpChartVersion:
     image: frolvlad/alpine-bash:latest
     commands:
-    - echo $CHART_VERSION
     - export NEW_CHART_VERSION=$(bash -c 'A=( ${CHART_VERSION//./ } ); ((A[1]++)); echo ${A[0]}.${A[1]}.${A[2]}')
-    - echo $NEW_CHART_VERSION
+    - echo "old chart version - $CHART_VERSION"
+    - echo "new chart version - $NEW_CHART_VERSION"
+    - sed -i "s/$CHART_VERSION/$NEW_CHART_VERSION/g" helm-charts/rainbow-kitten-surprise/Chart.yaml
+    - git status
     when:
       condition:
         all:
