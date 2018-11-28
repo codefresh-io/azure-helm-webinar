@@ -3,11 +3,11 @@
 
 cat:
   image:
-    name: "r.j3ss.co/party-clippy"
-    tag: "latest"
+    name: "joshtest.azurecr.io/azure-helm-webinar/cat-service"
+    tag: "0.1.2"
 
 color:
   image:
-    name: "r.j3ss.co/party-clippy"
-    tag: "latest"
+    name: "joshtest.azurecr.io/azure-helm-webinar/color-service"
+    tag: "0.1.2"
 

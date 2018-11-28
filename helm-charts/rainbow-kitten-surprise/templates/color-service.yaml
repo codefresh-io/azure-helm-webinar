@@ -9,6 +9,8 @@ spec:
       labels:
         app: {{ .Release.Name }}-app-color
     spec:
+      imagePullSecrets:
+      - name: acr-auth
       containers:
       - image: {{ .Values.color.image.name }}:{{ .Values.color.image.tag }}
         name: color-service

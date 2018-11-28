@@ -9,6 +9,8 @@ spec:
       labels:
         app: {{ .Release.Name }}-app-cat
     spec:
+      imagePullSecrets:
+      - name: acr-auth
       containers:
       - image: {{ .Values.cat.image.name }}:{{ .Values.cat.image.tag }}
         name: cat-service
