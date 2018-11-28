@@ -12,6 +12,8 @@ and the [color-service](services/color-service).
 
 ### Installation
 
+*Assumes Tiller is already installed on the cluster*
+
 To install (on Azure):
 
 ```
