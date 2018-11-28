@@ -9,8 +9,8 @@ class CustomHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header('Content-type', 'application/json')
         self.end_headers()
-        #color = '#b978c0'
-        color = '%06x' % random.randint(0, 0xFFFFFF)
+        color = '#b978c0'
+        #color = '%06x' % random.randint(0, 0xFFFFFF)
         self.wfile.write('{"color": "#%s"}' % color)
 
 def main():
