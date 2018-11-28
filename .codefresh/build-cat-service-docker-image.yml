@@ -39,7 +39,7 @@ steps:
     - git config --global user.email $GIT_AUTHOR_EMAIL
     - git config --global user.name robot
     - git commit -am "Automated - new version $NEW_CHART_VERSION"
-    - git push origin master
+    - git push git@github.com:codefresh-io/azure-helm-webinar.git master
     when:
       condition:
         all:
