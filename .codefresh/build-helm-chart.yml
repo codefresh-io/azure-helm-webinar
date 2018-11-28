@@ -6,6 +6,7 @@ version: '1.0'
 steps:
   push:
     image: codefresh/cfstep-helm:2.11.0
+    working_directory: helm-charts/
     environment:
     - ACTION=push
     - CHART_REF=rainbow-kitten-surprise
