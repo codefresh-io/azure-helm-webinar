@@ -27,4 +27,6 @@ To uninstall:
 helm uninstall $RELEASE_NAME --purge
 ```
 
-<img src="Azure_Codefresh.png"/>
+## Pipeline Diagram
+
+<img width="500px" src="Azure_Codefresh.png"/>
