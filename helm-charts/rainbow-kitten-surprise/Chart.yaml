@@ -1,4 +1,4 @@
 apiVersion: v1
 description: pretty much what it sounds like
 name: rainbow-kitten-surprise
-version: 0.3.1
+version: 0.4.1
