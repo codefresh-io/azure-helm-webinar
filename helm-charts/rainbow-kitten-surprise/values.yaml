@@ -2,7 +2,7 @@
 # clusterDnsZone: "52fc7454c071a75fc1d3.eastus.aksapp.io"
 
 catImageName: "joshtest.azurecr.io/azure-helm-webinar/cat-service"
-catImageTag: "0.4.2"
+catImageTag: "0.4.3"
 
 colorImageName: "joshtest.azurecr.io/azure-helm-webinar/color-service"
 colorImageTag: "0.3.6"
