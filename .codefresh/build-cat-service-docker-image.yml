@@ -1,3 +1,7 @@
+# Must set the following environment variables in the pipeline:
+#
+# - GIT_AUTHOR_EMAIL
+#
 version: "1.0"
 steps:
   CheckVersions:
@@ -32,6 +36,8 @@ steps:
     - echo "old chart version - $CHART_VERSION"
     - echo "new chart version - $NEW_CHART_VERSION"
     - sed -i "s/$CHART_VERSION/$NEW_CHART_VERSION/g" helm-charts/rainbow-kitten-surprise/Chart.yaml
+    - git config --global user.email $GIT_AUTHOR_EMAIL
+    - git config --global user.name robot
     - git commit -am "Automated - new version $NEW_CHART_VERSION"
     - git push origin master
     when:
