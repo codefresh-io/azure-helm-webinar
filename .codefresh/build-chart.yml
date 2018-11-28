@@ -1,0 +1,11 @@
+# Must set the following environment variables in the pipeline:
+#
+# - CF_CTX_* (Attach Codefresh Helm repo context)
+#
+version: '1.0'
+steps:
+  push:
+    image: codefresh/cfstep-helm:2.11.0
+    environment:
+    - ACTION=push
+    - CHART_REF=rainbow-kitten-surprise

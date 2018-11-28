@@ -1,0 +1,15 @@
+# Must set the following environment variables in the pipeline:
+#
+# - KUBE_CONTEXT
+# - CLUSTER_DNS_ZONE
+# - CF_CTX_* (Attach Codefresh Helm repo context)
+#
+version: '1.0'
+steps:
+  deploy:
+    image: codefresh/cfstep-helm:2.11.0
+    environment:
+    - ACTION=install
+    - CHART_REF=rainbow-kitten-surprise
+    - RELEASE_NAME=azdemo
+    - VALUE_clusterDnsZone=$CLUSTER_DNS_ZONE
