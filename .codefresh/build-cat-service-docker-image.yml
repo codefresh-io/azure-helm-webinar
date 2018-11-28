@@ -5,6 +5,7 @@ steps:
     commands:
     - export DOCKER_VERSION=$(cat services/cat-service/VERSION)
     - export PUSH_DOCKER=$(if [[ "$(git log --format='%H' -n 1 -- services/cat-service/VERSION)" == "${{CF_REVISION}}" ]]; then echo "true"; else echo "false"; fi)
+    - cf_export DOCKER_VERSION=$DOCKER_VERSION PUSH_DOCKER=$PUSH_DOCKER
   BuildDocker:
     type: build
     working_directory: services/cat-service/
