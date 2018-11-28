@@ -1,12 +1,42 @@
 # Must set the following environment variables in the pipeline:
 #
+# - DEPLOY_HELM_CHART_PIPELINE_ID
 # - CF_CTX_* (Attach Codefresh Helm repo context)
 #
 version: '1.0'
 steps:
-  push:
+  CheckVersions:
+    image: alpine/git:1.0.4
+    commands:
+    - export CHART_VERSION=$(cat helm-charts/rainbow-kitten-surprise/Chart.yaml | grep -m 1 ^version:| awk '{print $2}')
+    - export PUSH_HELM=$(if [[ "$(git log --format='%H' -n 1 -- helm-charts/rainbow-kitten-surprise/Chart.yaml)" == "${{CF_REVISION}}" ]]; then echo "true"; else echo "false"; fi)
+    - cf_export CHART_VERSION=$CHART_VERSION PUSH_HELM=$PUSH_HELM
+  BuildChart:
+    image: codefresh/cfstep-helm:2.11.0
+    working_directory: helm-charts/
+    commands:
+    - helm package rainbow-kitten-surprise
+  TestChart:
+    image: codefresh/cfstep-helm:2.11.0
+    working_directory: helm-charts/
+    commands:
+    - echo "tests pass"
+  PushChart:
     image: codefresh/cfstep-helm:2.11.0
     working_directory: helm-charts/
     environment:
     - ACTION=push
     - CHART_REF=rainbow-kitten-surprise
+    when:
+      condition:
+        all:
+          ChartYamlChanged: '"${{PUSH_HELM}}" == "true"'
+  TriggerDeploy:
+    image: codefresh/cli:latest
+    commands:
+    - export ARGS="-v CHART_VERSION=${{CHART_VERSION}}"
+    - codefresh run $DEPLOY_HELM_CHART_PIPELINE_ID --detach $ARGS
+    when:
+      condition:
+        all:
+          ChartYamlChanged: '"${{PUSH_HELM}}" == "true"'
