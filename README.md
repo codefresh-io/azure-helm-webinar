@@ -40,3 +40,4 @@ All pipeline definitions can be found in the [.codefresh/](.codefresh/) folder.
 
 <img width="500px" src="Azure_Codefresh.png"/>
 
+ 
