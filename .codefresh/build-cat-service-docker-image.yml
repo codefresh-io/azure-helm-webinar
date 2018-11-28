@@ -11,6 +11,24 @@ steps:
     - export DOCKER_VERSION=$(cat services/cat-service/VERSION)
     - export PUSH_DOCKER=$(if [[ "$(git log --format='%H' -n 1 -- services/cat-service/VERSION)" == "${{CF_REVISION}}" ]]; then echo "true"; else echo "false"; fi)
     - cf_export CHART_VERSION=$CHART_VERSION DOCKER_VERSION=$DOCKER_VERSION PUSH_DOCKER=$PUSH_DOCKER
+  BuildDocker:
+    type: build
+    working_directory: services/cat-service/
+    image_name: azure-helm-webinar/cat-service
+    tag: '${{CF_BRANCH_TAG_NORMALIZED}}'
+  TestDocker:
+    image: alpine/git:1.0.4
+    commands:
+    - echo "tests pass"
+  PushDocker:
+    type: push
+    candidate: '${{BuildDocker}}'
+    tag: '${{DOCKER_VERSION}}'
+    registry: acr
+    when:
+      condition:
+        all:
+          VersionChanged: '"${{PUSH_DOCKER}}" == "true"'
   BumpChartVersion:
     image: andthensome/alpine-hugo-git-bash:latest
     commands:

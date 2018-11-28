@@ -1,12 +1,8 @@
 # obtain this from Azure portal and install this chart with --set clusterDnsZone=<zone>
 # clusterDnsZone: "52fc7454c071a75fc1d3.eastus.aksapp.io"
 
-cat:
-  image:
-    name: "joshtest.azurecr.io/azure-helm-webinar/cat-service"
-    tag: "0.1.2"
+catImageName: "joshtest.azurecr.io/azure-helm-webinar/cat-service"
+catImageTag: "0.1.2"
 
-color:
-  image:
-    name: "joshtest.azurecr.io/azure-helm-webinar/color-service"
-    tag: "0.1.2"
+colorImageName: "joshtest.azurecr.io/azure-helm-webinar/color-service"
+colorImageTag: "0.1.2"

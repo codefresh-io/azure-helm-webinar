@@ -3,9 +3,10 @@ steps:
   CheckVersions:
     image: alpine/git:1.0.4
     commands:
+    - export CHART_VERSION=$(cat helm-charts/rainbow-kitten-surprise/Chart.yaml | grep -m 1 ^version:| awk '{print $2}')
     - export DOCKER_VERSION=$(cat services/color-service/VERSION)
     - export PUSH_DOCKER=$(if [[ "$(git log --format='%H' -n 1 -- services/color-service/VERSION)" == "${{CF_REVISION}}" ]]; then echo "true"; else echo "false"; fi)
-    - cf_export DOCKER_VERSION=$DOCKER_VERSION PUSH_DOCKER=$PUSH_DOCKER
+    - cf_export CHART_VERSION=$CHART_VERSION DOCKER_VERSION=$DOCKER_VERSION PUSH_DOCKER=$PUSH_DOCKER
   BuildDocker:
     type: build
     working_directory: services/color-service/
@@ -25,11 +26,17 @@ steps:
         all:
           VersionChanged: '"${{PUSH_DOCKER}}" == "true"'
   BumpChartVersion:
-    image: codefresh/cli:latest
+    image: andthensome/alpine-hugo-git-bash:latest
     commands:
-    - export ARGS="-v CAT_SERVICE_VERSION=${{DOCKER_VERSION}}"
-    - codefresh run $BUILD_HELM_CHART_PIPELINE_ID --branch=master --detach $ARGS
-    when:
-      condition:
-        all:
-          VersionChanged: '"${{PUSH_DOCKER}}" == "true"'
+    - export NEW_CHART_VERSION=$(bash -c 'A=( ${CHART_VERSION//./ } ); ((A[1]++)); echo ${A[0]}.${A[1]}.${A[2]}')
+    - echo "old chart version - $CHART_VERSION"
+    - echo "new chart version - $NEW_CHART_VERSION"
+    - sed -i "s/$CHART_VERSION/$NEW_CHART_VERSION/g" helm-charts/rainbow-kitten-surprise/Chart.yaml
+    - git config --global user.email robot@codefresh.io
+    - git config --global user.name robot
+    - git commit -am "Automated - new version $NEW_CHART_VERSION"
+    - apk update && apk add openssh
+    - mkdir ~/.ssh && ssh-keyscan github.com >> ~/.ssh/known_hosts
+    - echo $GIT_PRIVATE_KEY_BASE64 | base64 -d > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
+    - export GIT_SSH_COMMAND='ssh -i ~/.ssh/id_rsa'
+    - git push git@github.com:codefresh-io/azure-helm-webinar.git HEAD:master

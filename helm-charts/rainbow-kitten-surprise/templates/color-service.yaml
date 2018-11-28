@@ -12,7 +12,7 @@ spec:
       imagePullSecrets:
       - name: acr-auth
       containers:
-      - image: {{ .Values.color.image.name }}:{{ .Values.color.image.tag }}
+      - image: {{ .Values.colorImageName }}:{{ .Values.colorImageTag }}
         name: color-service
         ports:
         - containerPort: 8080

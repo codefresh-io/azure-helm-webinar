@@ -12,7 +12,7 @@ spec:
       imagePullSecrets:
       - name: acr-auth
       containers:
-      - image: {{ .Values.cat.image.name }}:{{ .Values.cat.image.tag }}
+      - image: {{ .Values.catImageName }}:{{ .Values.catImageTag }}
         name: cat-service
         ports:
         - containerPort: 8080
