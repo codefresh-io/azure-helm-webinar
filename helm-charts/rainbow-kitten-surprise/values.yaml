@@ -10,5 +10,3 @@ color:
   image:
     name: "joshtest.azurecr.io/azure-helm-webinar/color-service"
     tag: "0.1.2"
-
-

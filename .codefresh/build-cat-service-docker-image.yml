@@ -1,12 +1,9 @@
-# Must set the following environment variables in the pipeline:
-#
-# - BUILD_HELM_CHART_PIPELINE_ID
-#
 version: "1.0"
 steps:
   CheckVersions:
     image: alpine/git:1.0.4
     commands:
+    - export CHART_VERSION=$(cat helm-charts/rainbow-kitten-surprise/Chart.yaml | grep -m 1 ^version:| awk '{print $2}')
     - export DOCKER_VERSION=$(cat services/cat-service/VERSION)
     - export PUSH_DOCKER=$(if [[ "$(git log --format='%H' -n 1 -- services/cat-service/VERSION)" == "${{CF_REVISION}}" ]]; then echo "true"; else echo "false"; fi)
     - cf_export DOCKER_VERSION=$DOCKER_VERSION PUSH_DOCKER=$PUSH_DOCKER
@@ -28,11 +25,11 @@ steps:
       condition:
         all:
           VersionChanged: '"${{PUSH_DOCKER}}" == "true"'
-  TriggerChartBuild:
-    image: codefresh/cli:latest
+  BumpChartVersion:
+    image: alpine/git:1.0.4
     commands:
-    - export ARGS="-v CAT_SERVICE_VERSION=${{DOCKER_VERSION}}"
-    - codefresh run $BUILD_HELM_CHART_PIPELINE_ID --branch=master --detach $ARGS
+    - A=( ${CHART_VERSION//./ } ); ((A[1]++)); export NEW_CHART_VERSION="${A[0]}.${A[1]}.${A[2]}"
+    - echo $NEW_CHART_VERSION
     when:
       condition:
         all:
