@@ -26,7 +26,7 @@ steps:
         all:
           VersionChanged: '"${{PUSH_DOCKER}}" == "true"'
   BumpChartVersion:
-    image: frolvlad/alpine-bash:latest
+    image: andthensome/alpine-hugo-git-bash:latest
     commands:
     - export NEW_CHART_VERSION=$(bash -c 'A=( ${CHART_VERSION//./ } ); ((A[1]++)); echo ${A[0]}.${A[1]}.${A[2]}')
     - echo "old chart version - $CHART_VERSION"
