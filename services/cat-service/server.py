@@ -17,8 +17,8 @@ class CustomHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header('Content-type', 'application/json')
         self.end_headers()
-        cat = cats[0]
-        #cat = random.choice(cats)
+        #cat = cats[0]
+        cat = random.choice(cats)
         self.wfile.write('{"cat": "%s"}' % cat)
 
 def main():
