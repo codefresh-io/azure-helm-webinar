@@ -4,6 +4,10 @@
 # - CF_CTX_* (Attach Codefresh Helm repo context)
 #
 version: '1.0'
+stages:
+- build
+- test
+- release
 steps:
   CheckVersions:
     image: alpine/git:1.0.4
@@ -12,16 +16,19 @@ steps:
     - export PUSH_HELM=$(if [[ "$(git log --format='%H' -n 1 -- helm-charts/rainbow-kitten-surprise/Chart.yaml)" == "${{CF_REVISION}}" ]]; then echo "true"; else echo "false"; fi)
     - cf_export CHART_VERSION=$CHART_VERSION PUSH_HELM=$PUSH_HELM
   BuildChart:
+    stage: build
     image: codefresh/cfstep-helm:2.11.0
     working_directory: helm-charts/
     commands:
     - helm package rainbow-kitten-surprise
   TestChart:
+    stage: test
     image: codefresh/cfstep-helm:2.11.0
     working_directory: helm-charts/
     commands:
     - echo "tests pass"
   PushChart:
+    stage: release
     image: codefresh/cfstep-helm:2.11.0
     working_directory: helm-charts/
     environment:
@@ -32,6 +39,7 @@ steps:
         all:
           ChartYamlChanged: '"${{PUSH_HELM}}" == "true"'
   TriggerDeploy:
+    stage: release
     image: codefresh/cli:latest
     commands:
     - export ARGS="-v CHART_VERSION=${{CHART_VERSION}}"
