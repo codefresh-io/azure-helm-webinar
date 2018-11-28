@@ -5,4 +5,4 @@ catImageName: "joshtest.azurecr.io/azure-helm-webinar/cat-service"
 catImageTag: "0.4.3"
 
 colorImageName: "joshtest.azurecr.io/azure-helm-webinar/color-service"
-colorImageTag: "0.3.6"
+colorImageTag: "0.5.1"
