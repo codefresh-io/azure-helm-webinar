@@ -1,0 +1,38 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-deployment-frontend
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-app-frontend
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/frontend-config.yaml") . | sha256sum }}
+    spec:
+      containers:
+      - image: bigstepinc/hello-world:latest
+        name: frontend
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: config-frontend-volume
+          mountPath: /var/www/localhost/htdocs
+      volumes:
+      - name: config-frontend-volume
+        configMap:
+          name: {{ .Release.Name }}-config-frontend
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-frontend
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: {{ .Release.Name }}-app-frontend
+  type: ClusterIP

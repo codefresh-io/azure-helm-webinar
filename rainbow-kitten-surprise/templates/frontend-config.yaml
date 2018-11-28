@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-config-frontend
+data:
+  index.html: |
+    <html style="height: 100%; margin: 0;">
+      <head>
+        <title>Rainbow Kitten Surprise</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      </head>
+      <body style="height: 100%; margin: 0;">
+        <div id="color" style="min-height: 100%; text-align: center; background: black;">
+          <br/>
+          <img id="cat" style="width: 200px; height: 200px; margin-top: 20%; border: 5px solid white;"/>
+        </div>
+        <script>
+          function getCat() {
+            var catReq = new XMLHttpRequest();
+            catReq.open('GET', '/api/cats');
+            catReq.onreadystatechange = function () {
+              var data = JSON.parse(catReq.responseText);
+              document.getElementById('cat').src = data['cat'];
+            };
+            catReq.send();
+          }
+
+          function getColor() {
+            var colorReq = new XMLHttpRequest();
+            colorReq.open('GET', '/api/colors');
+            colorReq.onreadystatechange = function () {
+              var data = JSON.parse(colorReq.responseText);
+              document.getElementById('color').style.backgroundColor = data['color'];
+            };
+            colorReq.send();
+          }
+
+          function main() {
+            getCat();
+            getColor();
+          }
+
+          main();
+        </script>
+      </body>
+    </html>

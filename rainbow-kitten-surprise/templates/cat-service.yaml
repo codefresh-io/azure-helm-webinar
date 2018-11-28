@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-deployment-cat
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-app-cat
+    spec:
+      containers:
+      - image: {{ .Values.cat.image.name }}:{{ .Values.cat.image.tag }}
+        name: cat-service
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-service-cat
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: {{ .Release.Name }}-app-cat
+  type: ClusterIP

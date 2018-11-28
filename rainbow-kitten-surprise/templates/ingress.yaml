@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}
+  annotations:
+    kubernetes.io/ingress.class: addon-http-application-routing
+spec:
+  rules:
+  - host: {{ .Release.Name }}.{{ .Values.clusterDnsZone }}
+    http:
+      paths:
+      - backend:
+          serviceName: {{ .Release.Name }}-frontend
+          servicePort: 80
+        path: /
+      - backend:
+          serviceName: {{ .Release.Name }}-service-cat
+          servicePort: 80
+        path: /api/cats
+      - backend:
+          serviceName: {{ .Release.Name }}-service-color
+          servicePort: 80
+        path: /api/colors
