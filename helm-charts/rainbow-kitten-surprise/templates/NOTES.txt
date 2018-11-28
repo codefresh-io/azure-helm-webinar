@@ -1,3 +1,2 @@
 Your app will be available at:
 http://{{ .Release.Name }}.{{ .Values.clusterDnsZone }}
-
