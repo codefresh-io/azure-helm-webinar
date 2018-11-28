@@ -8,7 +8,8 @@ cats = [
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTz7DnepEt9HKWgFwpdU1U-EkBh_BVyGyl_L2xBA8Maaa3mTQ5E',
     'https://thepawington.com/wp-content/uploads/2014/02/kitten.png',
     'https://ih0.redbubble.net/image.474690746.7074/ap,550x550,12x16,1,transparent,t.u1.png',
-    'https://cat-bounce.com/catbounce.png'
+    'https://cat-bounce.com/catbounce.png',
+    'https://images.fineartamerica.com/images/artworkimages/mediumlarge/1/school-smart-kitten-sheila-fitzgerald.jpg'
 ]
 
 class CustomHandler(BaseHTTPServer.BaseHTTPRequestHandler):
