@@ -26,3 +26,5 @@ To uninstall:
 ```
 helm uninstall $RELEASE_NAME --purge
 ```
+
+<img src="Azure_codefresh.png"/>
