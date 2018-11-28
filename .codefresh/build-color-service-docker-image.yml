@@ -32,6 +32,7 @@ steps:
     - echo "old chart version - $CHART_VERSION"
     - echo "new chart version - $NEW_CHART_VERSION"
     - sed -i "s/$CHART_VERSION/$NEW_CHART_VERSION/g" helm-charts/rainbow-kitten-surprise/Chart.yaml
+    - 'sed -i "s/colorImageTag: \".*\"/colorImageTag: \"$DOCKER_VERSION\"/g" helm-charts/rainbow-kitten-surprise/values.yaml'
     - git config --global user.email robot@codefresh.io
     - git config --global user.name robot
     - git commit -am "Automated - new version $NEW_CHART_VERSION"
