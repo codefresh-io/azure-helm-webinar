@@ -3,6 +3,10 @@
 # - GIT_PRIVATE_KEY_BASE64 (encrypted)
 #
 version: "1.0"
+stages:
+- build
+- test
+- release
 steps:
   CheckVersions:
     image: alpine/git:1.0.4
@@ -12,15 +16,18 @@ steps:
     - export PUSH_DOCKER=$(if [[ "$(git log --format='%H' -n 1 -- services/color-service/VERSION)" == "${{CF_REVISION}}" ]]; then echo "true"; else echo "false"; fi)
     - cf_export CHART_VERSION=$CHART_VERSION DOCKER_VERSION=$DOCKER_VERSION PUSH_DOCKER=$PUSH_DOCKER
   BuildDocker:
+    stage: build
     type: build
     working_directory: services/color-service/
     image_name: azure-helm-webinar/color-service
     tag: '${{CF_BRANCH_TAG_NORMALIZED}}'
   TestDocker:
+    stage: test
     image: alpine/git:1.0.4
     commands:
     - echo "tests pass"
   PushDocker:
+    stage: release
     type: push
     candidate: '${{BuildDocker}}'
     tag: '${{DOCKER_VERSION}}'
@@ -30,6 +37,7 @@ steps:
         all:
           VersionChanged: '"${{PUSH_DOCKER}}" == "true"'
   BumpChartVersion:
+    stage: release
     image: andthensome/alpine-hugo-git-bash:latest
     commands:
     - export NEW_CHART_VERSION=$(bash -c 'A=( ${CHART_VERSION//./ } ); ((A[1]++)); echo ${A[0]}.${A[1]}.${A[2]}')
