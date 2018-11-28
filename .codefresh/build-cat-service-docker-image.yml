@@ -28,7 +28,7 @@ steps:
   BumpChartVersion:
     image: frolvlad/alpine-bash:latest
     commands:
-    - export NEW_CHART_VERSION=$(bash -c "A=( ${CHART_VERSION//./ } ); ((A[1]++)); echo \${A[0]}.\${A[1]}.\${A[2]}")
+    - export NEW_CHART_VERSION=$(bash -c 'A=( ${CHART_VERSION//./ } ); ((A[1]++)); echo ${A[0]}.${A[1]}.${A[2]}')
     - echo $NEW_CHART_VERSION
     when:
       condition:
