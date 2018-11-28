@@ -13,3 +13,6 @@ steps:
     - CHART_REF=rainbow-kitten-surprise
     - RELEASE_NAME=azdemo
     - VALUE_clusterDnsZone=$CLUSTER_DNS_ZONE
+    retry:
+      maxAttempts: 3
+      delay: 10
