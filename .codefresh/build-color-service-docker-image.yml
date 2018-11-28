@@ -45,3 +45,7 @@ steps:
     - echo $GIT_PRIVATE_KEY_BASE64 | base64 -d > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
     - export GIT_SSH_COMMAND='ssh -i ~/.ssh/id_rsa'
     - git push git@github.com:codefresh-io/azure-helm-webinar.git HEAD:master
+    when:
+      condition:
+        all:
+          VersionChanged: '"${{PUSH_DOCKER}}" == "true"'
