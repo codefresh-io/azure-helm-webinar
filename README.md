@@ -1,4 +1,4 @@
-# azure-demo-helm-chart
+# azure-helm-webinar
 
 **rainbow-kitten-surprise** is a very important application
 that provides a unique sensory experience.
